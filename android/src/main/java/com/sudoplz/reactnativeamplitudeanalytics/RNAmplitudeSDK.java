@@ -5,6 +5,10 @@ import com.amplitude.api.Identify;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+
+import android.app.UiModeManager;
+import android.content.res.Configuration;
 
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.Promise;
@@ -40,9 +44,15 @@ public class RNAmplitudeSDK extends ReactContextBaseJavaModule {
     return "RNAmplitudeSDK";
   }
 
+  protected Boolean isTV() {
+    UiModeManager uiModeManager = (UiModeManager) getReactApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
+    return uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
+  }
+
   @ReactMethod
   public void initialize(String apiKey, Boolean trackSessionEvents) {
-    Amplitude.getInstance().initialize(getReactApplicationContext(), apiKey).enableForegroundTracking(this.mApplication);
+    String platform = isTV() ? "Android TV" : null;
+    Amplitude.getInstance().initialize(getReactApplicationContext(), apiKey, null, platform).enableForegroundTracking(this.mApplication);
     Amplitude.getInstance().trackSessionEvents(trackSessionEvents);
   }
 

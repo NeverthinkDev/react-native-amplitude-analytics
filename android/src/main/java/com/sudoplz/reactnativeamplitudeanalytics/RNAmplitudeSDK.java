@@ -9,6 +9,7 @@ import android.content.Context;
 
 import android.app.UiModeManager;
 import android.content.res.Configuration;
+import android.content.pm.PackageManager;
 
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.Promise;
@@ -49,9 +50,14 @@ public class RNAmplitudeSDK extends ReactContextBaseJavaModule {
     return uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
   }
 
+  protected Boolean isOculus() {
+    PackageManager packageManager = getReactApplicationContext().getPackageManager();
+    return packageManager.hasSystemFeature("oculus.hardware.standalone_vr");
+  }
+
   @ReactMethod
   public void initialize(String apiKey, Boolean trackSessionEvents) {
-    String platform = isTV() ? "Android TV" : null;
+    String platform = isTV() ? "Android TV" : (isOculus() ? "Oculus" : null);
     Amplitude.getInstance().initialize(getReactApplicationContext(), apiKey, null, platform).enableForegroundTracking(this.mApplication);
     Amplitude.getInstance().trackSessionEvents(trackSessionEvents);
   }

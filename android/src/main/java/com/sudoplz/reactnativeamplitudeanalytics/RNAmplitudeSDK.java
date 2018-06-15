@@ -57,7 +57,7 @@ public class RNAmplitudeSDK extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void initialize(String apiKey, Boolean trackSessionEvents) {
-    String platform = isTV() ? "Android TV" : (isOculus() ? "Oculus" : null);
+    String platform = isOculus() ? "Oculus" : (isTV() ? "Android TV" : null);
     Amplitude.getInstance().initialize(getReactApplicationContext(), apiKey, null, platform).enableForegroundTracking(this.mApplication);
     Amplitude.getInstance().trackSessionEvents(trackSessionEvents);
   }

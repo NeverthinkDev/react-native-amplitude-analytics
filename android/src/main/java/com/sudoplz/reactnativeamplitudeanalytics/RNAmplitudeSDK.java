@@ -45,12 +45,16 @@ public class RNAmplitudeSDK extends ReactContextBaseJavaModule {
     return "RNAmplitudeSDK";
   }
 
-  protected Boolean isTV() {
-    UiModeManager uiModeManager = (UiModeManager) getReactApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
-    return uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
+  protected boolean isTV() {
+    Context context = getReactApplicationContext();
+    if (isOculus()) return false;
+    UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
+    boolean isTelevision = uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
+    boolean isNoTouch = context.getResources().getConfiguration().touchscreen == Configuration.TOUCHSCREEN_NOTOUCH;
+    return isTelevision || isNoTouch;
   }
 
-  protected Boolean isOculus() {
+  protected boolean isOculus() {
     PackageManager packageManager = getReactApplicationContext().getPackageManager();
     return packageManager.hasSystemFeature("oculus.hardware.standalone_vr");
   }

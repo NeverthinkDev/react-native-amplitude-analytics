@@ -1,6 +1,6 @@
 {
   "name": "react-native-amplitude-analytics",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "description": "React Native iOS and Android wrapper for Amplitude",
   "keywords": [
     "react-native",
@@ -16,6 +16,7 @@
     "url": "git+https://github.com/SudoPlz/react-native-amplitude-analytics.git"
   },
   "main": "index.js",
+  "typings": "./index.d.ts",
   "author": {
     "name": "Ioannis Kokkinidis",
     "email": "sudoplz@gmail.com",
